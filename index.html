@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="DisControlFace">
+        content="DisControlFace: Adding Disentangled Control to Diffusion Autoencoder for One-shot Explicit Facial Image Editing">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DisControlFace</title>
+  <title>DisControlFace: Adding Disentangled Control to Diffusion Autoencoder for One-shot Explicit Facial Image Editing</title>
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
         rel="stylesheet">
@@ -26,9 +26,153 @@
 <body>
 
 
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">DisControlFace: Adding Disentangled Control to Diffusion Autoencoder for One-shot Explicit Facial Image Editing
+		  <br>
+		  <small>ACM MM 2024</small>
+		  </h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="mail:   jiahaozhe1@huawei.com">Haozhe Jia</a><sup>*1</sup>, </span>
+            <span class="author-block">
+              <a href="mail:   yanlics@mail.nwpu.edu.cn">Yan Li</a><sup>*2</sup>, </span>
+            <span class="author-block">
+              <a href="mail:   hfcui@nwpu.edu.cn">Hengfei Cui</a><sup>2</sup>, </span>
+            <span class="author-block">
+              <a href="mail:   xudi21@huawei.com">Di XU</a><sup>1</sup>, </span>
+            <span class="author-block">
+              <a href="mail:   wang-yuwang@mail.tsinghua.edu.cn">Yuwang Wang</a><sup><span>&#8224;</span>3</sup>, </span>
+            <span class="author-block">
+              <a href="mail:   ytrock@mail.tsinghua.edu.cn">Tao Yu</a><sup><span>&#8224;</span>3</sup></span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Huawei Cloud Computing Technologies Co., Ltd </span>&nbsp;&nbsp;
+            <span class="author-block"><sup>2</sup>Northwestern Polytechnical University </span>&nbsp;&nbsp;
+            <span class="author-block"><sup>3</sup>Tsinghua University </span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="columns is-centered">
+    <div class="column is-9">
+      <div class="columns is-centered">
+        <img src="static\images\teaser.png" alt="teaser image">
+      </div>
+      <h2 class="subtitle has-text-justified" style="font-size:18px;">
+        Our DisControlFace can realistically edit the input portrait corresponding to different explicit parametric controls and 
+        faithfully generate personalized facial details of an individual. 
+        Our model also supports other editing tasks, <em>e.g.</em>, inpainting and semantic manipulations.
+      </h2>
+    </div>
+  </div>
+</section>
+
 <section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-11">
+        <h2 class="title is-2">Abstract</h2>
+        <div class="content has-text-justified" style="font-size:20px;">
+          In this work, we focus on exploring explicit fine-grained control of generative facial image editing, 
+          all while generating faithful facial appearances and consistent semantic details, which however, 
+          is quite challenging and has not been extensively explored, especially under an one-shot scenario. 
+          We identify the key challenge as the exploration of disentangled conditional control between 
+          high-level semantics and explicit parameters (e.g., 3DMM) in the generation process, 
+          and accordingly propose a novel diffusion-based editing framework, named DisControlFace. 
+          Specifically, we leverage a Diffusion Autoencoder (Diff-AE) as the semantic reconstruction backbone. 
+          To enable explicit face editing, we construct an Exp-FaceNet that is compatible with Diff-AE 
+          to generate spatial-wise explicit control conditions based on estimated 3DMM parameters. 
+          Different from current diffusion-based editing methods that train the whole conditional generative model from scratch, 
+          we freeze the pre-trained weights of the Diff-AE to maintain its semantically deterministic conditioning capability 
+          and accordingly propose a random semantic masking (RSM) strategy to effectively achieve an independent training of Exp-FaceNet. 
+          This setting endows the model with disentangled face control meanwhile reducing semantic information shift in editing. 
+          Our model can be trained using 2D in-the-wild portrait images without requiring 3D or video data and 
+          perform robust editing on any new facial image through a simple one-shot fine-tuning. 
+          Comprehensive experiments demonstrate that DisControlFace can generate realistic facial images with better editing accuracy 
+          and identity preservation over state-of-the-art methods.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-11">
+        <img src="static/images/pipeline.png" alt="pipeline image">
+      </div>    
+    </div>
+  </div>
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-10">
+        <div class="content has-text-justified" style="font-size:18px;">
+        <B>Pipeline overview.</B> Our DisControlNet leverages Diffusion Autoencoder (Diff-AE) 
+        as the reconstruction backbone freeze its pre-trained weights to maintain the semantic deterministic conditioning capability, 
+        which is effective in reducing semantic information shift during the editing of the input portrait image. 
+        Then, an explicit face control network, Exp-FaceNet compatible with the Diff-AE is constructed, 
+        which takes pixel-aligned snapshots rendered from estimated explicit parameters as inputs 
+        and generates multi-scale control features to condition the DDIM decoder. 
+        Moreover, a random semantic masking (RSM) training strategy is accordingly designed 
+        to enable a disentangled explicit face control of Exp-FaceNet.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<br><br>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-2">Vedio</h2>
+    <div class="columns is-centered">
+      <div class="column is-12">
+        <div class="video_container">
+          <video controls>
+          <source src="static\videos\supplementary_video_cameraready.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+          </video></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
-    <h2 class="title is-3">working in progress</h2>
+    <h2 class="title is-2">BibTeX</h2>
+    <pre><code>
+    bib
+    </code></pre>
   </div>
 </section>
 
